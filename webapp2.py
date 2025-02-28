@@ -55,7 +55,9 @@ st.markdown(
 
 # Streamlit UI
 st.title(translate_text("Plant Fertilizer Prediction"))
-
+st.write(translate_text("This app predicts the type of fertilizer to be used for a particular crop based on the environmental conditions."))
+# Add a video to the app
+st.image("crop_fertilizer.jpg", width=500)
 st.sidebar.header(translate_text("Input Parameters"))
 
 # Input fields using sliders
@@ -74,4 +76,11 @@ if st.sidebar.button(translate_text("Predict Fertilizer")):
     prediction = ferti.classes_[model.predict(input_data)][0]
     
     st.subheader(translate_text("Prediction:"))
-    st.success(f"{translate_text('The recommended fertilizer is')}: {translate_text(prediction)}")
+    st.markdown(
+        f"""
+        <div style="background-color: #3F4F44; padding: 10px; border-radius: 5px;">
+            <h3 style="color: #9DC08B;">{translate_text('The recommended fertilizer is')}: {translate_text(prediction)}</h3>
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
