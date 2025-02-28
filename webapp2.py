@@ -2,6 +2,7 @@ import streamlit as st
 import pickle
 import numpy as np
 from googletrans import Translator
+from geminiService import get_fertilizer_strategy
 
 # Load models
 model = pickle.load(open('classifier.pkl', 'rb'))
@@ -80,6 +81,18 @@ if st.sidebar.button(translate_text("Predict Fertilizer")):
         f"""
         <div style="background-color: #3F4F44; padding: 10px; border-radius: 5px;">
             <h3 style="color: #9DC08B;">{translate_text('The recommended fertilizer is')}: {translate_text(prediction)}</h3>
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
+    with st.spinner(translate_text("Fetching best strategies for using this fertilizer...")):
+        strategy = get_fertilizer_strategy(prediction)
+
+    st.subheader(translate_text("Usage Strategy:"))
+    st.markdown(
+        f"""
+        <div style="background-color: #2C3930; padding: 15px; border-radius: 10px; margin-top: 10px; border: 1px solid #A27B5C;">
+            <p style="color: white;">{translate_text(strategy)}</p>
         </div>
         """,
         unsafe_allow_html=True,
